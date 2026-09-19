@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WePrint Graphix Solutions — printing, signage and fabrication</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=Newsreader:opsz,wght@6..72,300..500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#31565E;
+    --teal-deep:#26444B;
+    --cyan:#27AAE2;
+    --magenta:#E80289;
+    --yellow:#FAED15;
+    --grey:#B3B3B3;
+    --paper:#FBFBFA;
+    --board:#E9EBEB;
+    --rule:#CDD2D3;
+    --ink:#231D1D;
+    --ink-soft:#5C6265;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#14181A;--board:#1E2426;--rule:#334044;--ink:#EDF1F1;--ink-soft:#9FAAAD;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#14181A;--board:#1E2426;--rule:#334044;--ink:#EDF1F1;--ink-soft:#9FAAAD;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Newsreader",Georgia,"Times New Roman",serif;
+    font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.ui{font-family:"Archivo","Helvetica Neue",Arial,sans-serif;font-variation-settings:"wdth" 112}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--magenta);outline-offset:3px}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  .prose{max-width:62ch}
+
+  /* masthead */
+  .masthead{position:sticky;top:0;z-index:20;background:var(--teal);color:#fff}
+  .masthead .wrap{display:flex;align-items:center;gap:20px;height:66px}
+  .logo{display:flex;align-items:center;gap:11px;text-decoration:none;color:#fff}
+  .logo img{width:40px;height:40px;border-radius:50%;display:block}
+  .logo b{font-family:"Archivo",sans-serif;font-weight:800;font-size:17px;font-variation-settings:"wdth" 118;letter-spacing:-.015em;line-height:1.05;display:block}
+  .logo em{font-family:"Archivo",sans-serif;font-style:normal;font-weight:500;font-size:10.5px;letter-spacing:.14em;color:rgba(255,255,255,.72);display:block}
+  .navlinks{margin-left:auto;display:flex;gap:18px;overflow-x:auto;scrollbar-width:none}
+  .navlinks::-webkit-scrollbar{display:none}
+  .navlinks a{font-family:"Archivo",sans-serif;font-size:13.5px;font-weight:500;text-decoration:none;color:rgba(255,255,255,.78);white-space:nowrap;display:flex;align-items:center;gap:7px;padding:4px 0}
+  .navlinks a:hover{color:#fff}
+  .chip{width:9px;height:9px;border-radius:2px;flex:none}
+  .topcta{font-family:"Archivo",sans-serif;font-size:13.5px;font-weight:700;text-decoration:none;background:var(--magenta);color:#fff;padding:10px 17px;border-radius:2px;white-space:nowrap}
+  @media(max-width:1000px){.navlinks{display:none}.topcta{margin-left:auto}}
+
+  /* hero */
+  .hero{padding:76px 0 0;background:var(--teal);color:#fff}
+  .hero h1{font-size:clamp(36px,6.6vw,74px);line-height:1.03;font-weight:800;font-variation-settings:"wdth" 118;letter-spacing:-.025em;margin:0 0 20px;max-width:16ch}
+  .hero p{font-size:clamp(18px,2.1vw,21px);color:rgba(255,255,255,.8);margin:0 0 28px;max-width:58ch}
+  .herorow{display:flex;flex-wrap:wrap;gap:13px;align-items:center;margin-bottom:56px}
+  .hero .btn{background:var(--magenta);border-color:var(--magenta);color:#fff}
+  .hero .btn.ghost{background:transparent;border-color:rgba(255,255,255,.45);color:#fff}
+  .btn{font-family:"Archivo",sans-serif;font-size:15px;font-weight:600;text-decoration:none;display:inline-block;padding:12px 21px;border-radius:2px;background:var(--ink);color:var(--paper);border:1px solid var(--ink)}
+  .btn.ghost{background:transparent;color:var(--ink)}
+  .btn:hover{opacity:.86}
+  .btn.sm{font-size:13.5px;padding:9px 15px;width:100%;text-align:center}
+
+  .strip{display:flex;height:70px;margin-bottom:-1px}
+  .strip div{flex:1;position:relative}
+  .strip div::after{content:attr(data-l);position:absolute;left:9px;bottom:9px;font-family:"Archivo",sans-serif;font-size:10.5px;font-weight:700;color:var(--label);letter-spacing:.08em}
+  @media(prefers-reduced-motion:no-preference){
+    .strip div{transform:scaleY(0);transform-origin:bottom;animation:ink .5s cubic-bezier(.2,.7,.3,1) forwards}
+    .strip div:nth-child(1){animation-delay:.05s}
+    .strip div:nth-child(2){animation-delay:.12s}
+    .strip div:nth-child(3){animation-delay:.19s}
+    .strip div:nth-child(4){animation-delay:.26s}
+    .strip div:nth-child(5){animation-delay:.33s}
+    @keyframes ink{to{transform:scaleY(1)}}
+  }
+
+  /* category */
+  .cat{padding:60px 0;border-bottom:1px solid var(--rule);scroll-margin-top:64px}
+  .channel{display:flex;align-items:center;gap:9px;font-family:"Archivo",sans-serif;font-size:12.5px;font-weight:600;color:var(--ink-soft)}
+  .channel i{width:14px;height:14px;border-radius:50%;display:block}
+  .cat h2{font-size:clamp(28px,4.2vw,40px);line-height:1.08;margin:6px 0 10px;font-weight:700;font-variation-settings:"wdth" 112;letter-spacing:-.02em}
+  .cat .lede{color:var(--ink-soft);margin:0 0 32px}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  @media(max-width:880px){.grid{grid-template-columns:repeat(2,1fr);gap:16px}}
+  @media(max-width:540px){.grid{grid-template-columns:1fr}}
+  .work{border:1px solid var(--rule);border-radius:3px;overflow:hidden;display:flex;flex-direction:column;background:var(--paper)}
+  .work .art{display:block;width:100%;height:auto}
+  .work .cap{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1;border-top:1px solid var(--rule)}
+  .work h3{font-family:"Archivo",sans-serif;font-size:16px;font-weight:600;margin:0}
+  .work .desc{font-size:16px;color:var(--ink-soft);line-height:1.45;margin:0}
+  .work .spec{font-family:"Archivo",sans-serif;font-size:12.5px;color:var(--ink-soft);border-top:1px dotted var(--rule);padding-top:8px;margin-top:2px}
+  .work .spec b{font-weight:600;color:var(--ink)}
+  .work .btnwrap{margin-top:auto;padding-top:12px}
+
+  /* contact */
+  .contact{padding:70px 0 0}
+  .contact h2{font-size:clamp(28px,5vw,44px);margin:0 0 16px;font-weight:800;font-variation-settings:"wdth" 118;letter-spacing:-.02em}
+  .cols{display:grid;grid-template-columns:1.2fr 1fr;gap:44px;align-items:start}
+  @media(max-width:760px){.cols{grid-template-columns:1fr;gap:30px}}
+  .deets{list-style:none;padding:0;margin:0}
+  .deets li{padding:12px 0;border-bottom:1px solid var(--rule);display:flex;gap:16px}
+  .deets b{font-family:"Archivo",sans-serif;font-size:13px;font-weight:600;color:var(--ink-soft);min-width:78px;flex:none;padding-top:4px}
+  .deets a{text-decoration:none;border-bottom:2px solid var(--magenta)}
+  footer{background:var(--teal);color:rgba(255,255,255,.78);margin-top:48px;padding:22px 0;font-size:14px}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="logo" href="#top"><img src="data:image/jpeg;base64,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" alt="WePrint Graphix Solutions logo"><span><b>WePrint</b><em>GRAPHIX SOLUTIONS</em></span></a>
+    <nav class="navlinks" id="nav" aria-label="Service categories"></nav>
+    <a class="topcta" href="#contact">Request a quote</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <h1>Printing, signage and fabrication under one roof.</h1>
+      <p class="prose">Twenty-one services, from a single tarpaulin to a full kiosk build. Pick what you need, tell us the size and quantity, and we'll quote it the same working day.</p>
+      <div class="herorow">
+        <a class="btn" href="#contact">Request a quote</a>
+        <a class="btn ghost" href="#cat-largeformat">Browse services</a>
+      </div>
+    </div>
+    <div class="strip" aria-hidden="true">
+      <div style="background:#27AAE2;--label:rgba(255,255,255,.95)" data-l="LARGE FORMAT"></div>
+      <div style="background:#E80289;--label:rgba(255,255,255,.95)" data-l="STICKERS"></div>
+      <div style="background:#FAED15;--label:rgba(35,29,29,.78)" data-l="SIGNAGE"></div>
+      <div style="background:#231D1D;--label:rgba(255,255,255,.9)" data-l="FABRICATION"></div>
+      <div style="background:#B3B3B3;--label:rgba(35,29,29,.78)" data-l="PERSONALISED"></div>
+    </div>
+  </section>
+
+  <div id="services"></div>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="cols">
+        <div>
+          <h2>Tell us what you need made.</h2>
+          <p class="prose" style="color:var(--ink-soft);margin:0 0 24px">
+            Every service above has its own quote button — it opens your email with the
+            job details already filled in. Or write to us directly. Send the size, the
+            quantity and the date you need it. If you have artwork, attach it; PDF, AI,
+            CDR, PSD or a high-resolution JPG all work. If you don't, describe it and our
+            layout artist will draft something for you to approve first.
+          </p>
+          <a class="btn" id="mainQuote" href="#">Email us a quote request</a>
+        </div>
+        <ul class="deets">
+          <li><b>Email</b><span><a id="emailLink" href="#">hello@weprintgraphix.example</a></span></li>
+          <li><b>Phone</b><span><a href="tel:+639968456950">0996 845 6950</a> (call / Viber)</span></li>
+          <li><b>Shop</b><span>Door 3, Seming Bldg, Purok 5,<br>Maharlika Highway, Tuburan,<br>Ligao City, Albay 4504</span></li>
+          <li><b>Facebook</b><span><a href="https://www.facebook.com/WePrintGS" target="_blank" rel="noopener">facebook.com/WePrintGS</a></span></li>
+          <li><b>Open</b><span>Mon–Sat, 7:00 a.m. – 6:00 p.m.<br>Sun, 8:00 a.m. – 12:00 p.m.</span></li>
+        </ul>
+      </div>
+    </div>
+    <footer>
+      <div class="wrap">
+        <span>WePrint Graphix Solutions — printing, signage and fabrication.</span>
+        <span>Quotes valid 30 days. 50% deposit to start production.</span>
+      </div>
+    </footer>
+  </section>
+</main>
+
+<script>
+/* ============================================================
+   EDIT HERE — used for the page name and every quote email
+   ============================================================ */
+const SHOP = {
+  name:  "WePrint Graphix Solutions",
+  email: "weprintgraphixsolutions@gmail.com"
+};
+
+const C="#27AAE2", M="#E80289", Y="#FAED15", O="#31565E", G="#B3B3B3", K="#231D1D";
+
+/* ---------- placeholder artwork for each service ---------- */
+function art(kind, a, b){
+  const W=600, H=400;
+  let s = `<svg class="art" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sample of finished work">`;
+  s += `<rect width="${W}" height="${H}" fill="var(--board)"/>`;
+
+  switch(kind){
+    case "tarp": s += `
+      <rect x="70" y="70" width="460" height="260" fill="${a}"/>
+      <rect x="70" y="70" width="460" height="58" fill="${b}"/>
+      <rect x="100" y="166" width="290" height="20" fill="#fff" opacity=".92"/>
+      <rect x="100" y="198" width="210" height="18" fill="#fff" opacity=".68"/>
+      <rect x="100" y="250" width="128" height="36" fill="#fff" opacity=".92"/>
+      <circle cx="86" cy="86" r="7" fill="var(--paper)"/><circle cx="514" cy="86" r="7" fill="var(--paper)"/>
+      <circle cx="86" cy="314" r="7" fill="var(--paper)"/><circle cx="514" cy="314" r="7" fill="var(--paper)"/>`; break;
+
+    case "backlit": s += `
+      <rect x="90" y="70" width="420" height="260" rx="4" fill="#0E1117"/>
+      <rect x="104" y="84" width="392" height="232" fill="${a}" opacity=".18"/>
+      <circle cx="300" cy="196" r="96" fill="${a}" opacity=".35"/>
+      <circle cx="300" cy="196" r="58" fill="${a}" opacity=".6"/>
+      <rect x="180" y="186" width="240" height="18" fill="#fff" opacity=".9"/>
+      <rect x="230" y="216" width="140" height="12" fill="${b}" opacity=".9"/>
+      <rect x="90" y="70" width="420" height="260" rx="4" fill="none" stroke="#8C8F99" stroke-width="7"/>`; break;
+
+    case "mural": s += `
+      <rect x="40" y="40" width="520" height="320" fill="var(--paper)"/>
+      <path d="M40 300 q120-150 250-90 q120 56 270-40 v190 h-520z" fill="${a}"/>
+      <circle cx="150" cy="120" r="46" fill="${b}"/>
+      <rect x="380" y="70" width="140" height="120" fill="none" stroke="var(--rule)" stroke-width="6"/>
+      <line x1="450" y1="70" x2="450" y2="190" stroke="var(--rule)" stroke-width="6"/>
+      <rect x="40" y="360" width="520" height="10" fill="var(--rule)"/>`; break;
+
+    case "stand": s += `
+      <rect x="200" y="42" width="200" height="290" fill="${a}"/>
+      <rect x="200" y="42" width="200" height="70" fill="${b}"/>
+      <rect x="228" y="150" width="144" height="14" fill="#fff" opacity=".92"/>
+      <rect x="228" y="176" width="104" height="10" fill="#fff" opacity=".65"/>
+      <circle cx="300" cy="248" r="36" fill="#fff" opacity=".85"/>
+      <rect x="176" y="332" width="248" height="16" rx="6" fill="#9AA0AA"/>
+      <rect x="292" y="332" width="16" height="26" fill="#9AA0AA"/>`; break;
+
+    case "vinyl": s += `
+      <rect x="78" y="60" width="444" height="280" fill="var(--paper)" stroke="var(--rule)" stroke-width="2"/>
+      <circle cx="168" cy="138" r="50" fill="${a}"/>
+      <rect x="254" y="88" width="100" height="100" rx="14" fill="${b}"/>
+      <circle cx="444" cy="138" r="50" fill="${b}" opacity=".5"/>
+      <rect x="112" y="234" width="112" height="64" rx="8" fill="${b}"/>
+      <circle cx="306" cy="266" r="38" fill="${a}" opacity=".72"/>
+      <rect x="372" y="234" width="112" height="64" rx="32" fill="${a}"/>
+      <rect x="78" y="60" width="444" height="280" fill="none" stroke="${b}" stroke-width="1.5" stroke-dasharray="7 6"/>`; break;
+
+    case "label": s += `
+      <rect x="120" y="60" width="360" height="280" fill="var(--paper)" stroke="var(--rule)" stroke-width="2"/>
+      <rect x="152" y="86" width="132" height="86" rx="10" fill="${a}"/>
+      <rect x="316" y="86" width="132" height="86" rx="10" fill="${a}"/>
+      <rect x="152" y="196" width="132" height="86" rx="10" fill="${b}"/>
+      <rect x="316" y="196" width="132" height="86" rx="10" fill="${b}"/>
+      <rect x="168" y="118" width="70" height="9" fill="#fff" opacity=".9"/>
+      <rect x="332" y="118" width="70" height="9" fill="#fff" opacity=".9"/>
+      <rect x="168" y="228" width="70" height="9" fill="#fff" opacity=".9"/>
+      <rect x="332" y="228" width="70" height="9" fill="#fff" opacity=".9"/>
+      <line x1="300" y1="60" x2="300" y2="340" stroke="var(--rule)" stroke-width="1.5" stroke-dasharray="6 6"/>`; break;
+
+    case "diecut": s += `
+      <path d="M300 78 l36 74 82 12 -59 58 14 82 -73-39 -73 39 14-82 -59-58 82-12z" fill="${a}"/>
+      <path d="M300 78 l36 74 82 12 -59 58 14 82 -73-39 -73 39 14-82 -59-58 82-12z" fill="none" stroke="${b}" stroke-width="3" stroke-dasharray="8 7" transform="scale(1.14) translate(-38 -40)"/>
+      <rect x="150" y="300" width="300" height="12" rx="6" fill="${b}" opacity=".45"/>`; break;
+
+    case "sintra": s += `
+      <rect x="112" y="94" width="376" height="236" fill="#8B8F98"/>
+      <rect x="100" y="80" width="376" height="236" fill="var(--paper)" stroke="var(--rule)" stroke-width="2"/>
+      <rect x="126" y="106" width="150" height="90" fill="${a}"/>
+      <circle cx="380" cy="151" r="45" fill="${b}"/>
+      <rect x="126" y="220" width="324" height="16" fill="${a}" opacity=".6"/>
+      <rect x="126" y="250" width="220" height="16" fill="var(--rule)"/>`; break;
+
+    case "vehicle": s += `
+      <path d="M92 268 l24-72 q6-18 26-18 h240 q18 0 30 14 l52 60 h50 q22 0 22 22 v28 h-444z" fill="${a}"/>
+      <path d="M150 196 h94 v-56 h-72z M264 140 h96 q14 0 22 12 l32 44 h-150z" fill="var(--paper)" opacity=".75"/>
+      <path d="M92 250 q180-44 416-18 v22 h-416z" fill="${b}"/>
+      <circle cx="188" cy="292" r="32" fill="#2A2C33"/><circle cx="188" cy="292" r="13" fill="#9AA0AA"/>
+      <circle cx="420" cy="292" r="32" fill="#2A2C33"/><circle cx="420" cy="292" r="13" fill="#9AA0AA"/>`; break;
+
+    case "acrylic": s += `
+      <rect x="70" y="120" width="470" height="150" rx="6" fill="var(--paper)" opacity=".25"/>
+      <g fill="${b}" opacity=".45"><rect x="116" y="164" width="52" height="118"/><rect x="200" y="164" width="52" height="118"/><rect x="284" y="164" width="52" height="118"/><rect x="368" y="164" width="52" height="118"/></g>
+      <g fill="${a}"><rect x="106" y="150" width="52" height="118" rx="4"/><rect x="190" y="150" width="52" height="118" rx="4"/><rect x="274" y="150" width="52" height="118" rx="4"/><rect x="358" y="150" width="52" height="118" rx="4"/></g>
+      <rect x="442" y="150" width="52" height="118" rx="4" fill="${b}"/>
+      <rect x="70" y="296" width="470" height="8" fill="var(--rule)"/>`; break;
+
+    case "stainless": s += `
+      <defs><linearGradient id="steel${a.replace('#','')}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#E4E7EC"/><stop offset="45%" stop-color="#9CA3AE"/>
+        <stop offset="55%" stop-color="#C8CDD5"/><stop offset="100%" stop-color="#7A8089"/></linearGradient></defs>
+      <rect x="60" y="110" width="480" height="180" fill="${a}" opacity=".12"/>
+      <g fill="#5C6169" opacity=".5"><circle cx="150" cy="200" r="54"/><rect x="230" y="150" width="46" height="100"/><rect x="300" y="150" width="46" height="100"/><path d="M380 250 l38-100 38 100z"/></g>
+      <g fill="url(#steel${a.replace('#','')})"><circle cx="142" cy="192" r="54"/><rect x="222" y="142" width="46" height="100"/><rect x="292" y="142" width="46" height="100"/><path d="M372 242 l38-100 38 100z"/></g>
+      <circle cx="142" cy="192" r="26" fill="${a}" opacity=".16"/>`; break;
+
+    case "panaflex": s += `
+      <rect x="74" y="96" width="452" height="196" rx="5" fill="#B9BEC7"/>
+      <rect x="88" y="110" width="424" height="168" fill="#FFFDF4"/>
+      <rect x="88" y="110" width="424" height="168" fill="${a}" opacity=".22"/>
+      <rect x="132" y="152" width="230" height="30" fill="${a}"/>
+      <rect x="132" y="196" width="160" height="22" fill="${b}"/>
+      <circle cx="430" cy="185" r="46" fill="${b}" opacity=".85"/>
+      <rect x="150" y="292" width="30" height="66" fill="#8B8F98"/>
+      <rect x="420" y="292" width="30" height="66" fill="#8B8F98"/>`; break;
+
+    case "neon": s += `
+      <rect width="600" height="400" fill="#16171C"/>
+      <g fill="none" stroke-linecap="round">
+        <path d="M120 250 v-90 q0-42 42-42 q42 0 42 42 v90" stroke="${a}" stroke-width="22" opacity=".18"/>
+        <path d="M120 250 v-90 q0-42 42-42 q42 0 42 42 v90" stroke="${a}" stroke-width="9"/>
+        <path d="M250 118 v132 M250 184 h72 M322 118 v132" stroke="${b}" stroke-width="22" opacity=".18"/>
+        <path d="M250 118 v132 M250 184 h72 M322 118 v132" stroke="${b}" stroke-width="9"/>
+        <path d="M376 250 q0-132 52-132 q52 0 52 132" stroke="${a}" stroke-width="22" opacity=".18"/>
+        <path d="M376 250 q0-132 52-132 q52 0 52 132" stroke="${a}" stroke-width="9"/>
+      </g>
+      <rect x="96" y="290" width="408" height="6" rx="3" fill="#3A3D45"/>`; break;
+
+    case "menu": s += `
+      <rect x="70" y="60" width="460" height="280" rx="4" fill="#23252B"/>
+      <rect x="98" y="88" width="180" height="20" fill="${a}"/>
+      <g fill="#F1EFE9" opacity=".82">
+        <rect x="98" y="138" width="150" height="11"/><rect x="98" y="168" width="188" height="11"/>
+        <rect x="98" y="198" width="132" height="11"/><rect x="98" y="228" width="168" height="11"/>
+        <rect x="98" y="258" width="146" height="11"/>
+      </g>
+      <g fill="${b}">
+        <rect x="336" y="138" width="46" height="11"/><rect x="336" y="168" width="46" height="11"/>
+        <rect x="336" y="198" width="46" height="11"/><rect x="336" y="228" width="46" height="11"/>
+        <rect x="336" y="258" width="46" height="11"/>
+      </g>
+      <rect x="416" y="130" width="90" height="148" rx="4" fill="${a}" opacity=".7"/>`; break;
+
+    case "road": s += `
+      <rect x="290" y="180" width="20" height="180" fill="#8B8F98"/>
+      <path d="M300 54 l122 210 h-244z" fill="${a}"/>
+      <path d="M300 92 l90 154 h-180z" fill="var(--paper)"/>
+      <rect x="288" y="130" width="24" height="64" rx="6" fill="${a}"/>
+      <circle cx="300" cy="214" r="13" fill="${a}"/>
+      <rect x="240" y="352" width="120" height="12" rx="4" fill="${b}" opacity=".5"/>`; break;
+
+    case "laser": s += `
+      <rect x="96" y="110" width="408" height="200" fill="var(--paper)" stroke="var(--rule)" stroke-width="2"/>
+      <circle cx="178" cy="176" r="36" fill="var(--board)" stroke="${a}" stroke-width="3"/>
+      <rect x="248" y="140" width="72" height="72" rx="10" fill="var(--board)" stroke="${a}" stroke-width="3"/>
+      <path d="M392 140 l40 72 h-80z" fill="var(--board)" stroke="${a}" stroke-width="3"/>
+      <rect x="140" y="250" width="320" height="36" rx="6" fill="var(--board)" stroke="${a}" stroke-width="3"/>
+      <line x1="300" y1="30" x2="300" y2="268" stroke="${b}" stroke-width="3" opacity=".75"/>
+      <circle cx="300" cy="268" r="13" fill="${b}" opacity=".35"/>
+      <circle cx="300" cy="268" r="5" fill="${b}"/>`; break;
+
+    case "barrier": s += `
+      <rect x="110" y="70" width="380" height="240" rx="4" fill="${a}" opacity=".14"/>
+      <rect x="110" y="70" width="380" height="240" rx="4" fill="none" stroke="${a}" stroke-width="4"/>
+      <path d="M130 300 l120-216 M196 300 l120-216" stroke="var(--paper)" stroke-width="16" opacity=".5" fill="none"/>
+      <rect x="240" y="230" width="120" height="80" fill="var(--board)"/>
+      <rect x="240" y="230" width="120" height="80" fill="none" stroke="${b}" stroke-width="3" stroke-dasharray="7 6"/>
+      <rect x="96" y="310" width="408" height="16" rx="5" fill="#9AA0AA"/>`; break;
+
+    case "kiosk": s += `
+      <rect x="128" y="96" width="344" height="36" rx="5" fill="${a}"/>
+      <rect x="146" y="132" width="308" height="146" fill="var(--paper)" stroke="var(--rule)" stroke-width="2"/>
+      <rect x="146" y="278" width="308" height="52" fill="${b}"/>
+      <rect x="176" y="160" width="120" height="14" fill="${a}"/>
+      <rect x="176" y="186" width="90" height="10" fill="var(--rule)"/>
+      <rect x="330" y="158" width="96" height="96" rx="6" fill="${a}" opacity=".35"/>
+      <rect x="128" y="96" width="14" height="234" fill="#9AA0AA"/>
+      <rect x="458" y="96" width="14" height="234" fill="#9AA0AA"/>`; break;
+
+    case "shirt": s += `
+      <path d="M210 96 l60-24 h60 l60 24 44 40 -34 40 -24-18 v152 h-152 v-152 l-24 18 -34-40z" fill="${a}"/>
+      <path d="M270 72 q30 34 60 0" fill="none" stroke="var(--board)" stroke-width="6"/>
+      <circle cx="300" cy="206" r="44" fill="${b}"/>
+      <rect x="242" y="268" width="116" height="14" fill="var(--paper)" opacity=".9"/>`; break;
+
+    case "id": s += `
+      <path d="M228 40 l72 118 72-118 h34 l-86 140 h-40 l-86-140z" fill="${a}"/>
+      <rect x="284" y="158" width="32" height="26" rx="5" fill="#9AA0AA"/>
+      <rect x="196" y="180" width="208" height="180" rx="9" fill="var(--paper)" stroke="var(--rule)" stroke-width="2"/>
+      <rect x="196" y="180" width="208" height="34" rx="9" fill="${b}"/>
+      <rect x="216" y="228" width="72" height="88" rx="4" fill="var(--board)"/>
+      <circle cx="252" cy="256" r="18" fill="#9AA0AA"/>
+      <path d="M226 316 q26-30 52 0z" fill="#9AA0AA"/>
+      <rect x="304" y="230" width="80" height="11" fill="var(--rule)"/>
+      <rect x="304" y="252" width="62" height="9" fill="var(--rule)"/>
+      <rect x="216" y="332" width="168" height="12" fill="${a}" opacity=".6"/>`; break;
+
+    case "mug": s += `
+      <rect x="160" y="112" width="220" height="192" rx="16" fill="${a}"/>
+      <path d="M380 160 h32 a44 44 0 0 1 0 88 h-32" fill="none" stroke="${a}" stroke-width="22"/>
+      <ellipse cx="270" cy="112" rx="110" ry="17" fill="var(--paper)" opacity=".35"/>
+      <circle cx="246" cy="204" r="32" fill="${b}"/>
+      <rect x="292" y="190" width="68" height="12" fill="var(--paper)" opacity=".92"/>
+      <rect x="292" y="210" width="46" height="12" fill="var(--paper)" opacity=".62"/>`; break;
+  }
+  return s + "</svg>";
+}
+
+/* ---------- categories and services ---------- */
+const CATS = [
+  {
+    id:"largeformat", channel:"Large format", color:C,
+    title:"Large-format printing",
+    lede:"Wide-width printing for anything that has to be seen from across the street — or across the room.",
+    items:[
+      {n:"Tarpaulin Printing", k:"tarp", a:C, b:M,
+       d:"Outdoor-grade vinyl printed full width with no seams. Eyeleted, hemmed or fitted with pole pockets.",
+       s:"Recent job: 3.0 × 2.4 m fiesta backdrop, 13 oz matte, pole pockets"},
+      {n:"Duratrans / Backlit Printing", k:"backlit", a:C, b:Y,
+       d:"Translucent film printed at high density for lightboxes, menu panels and illuminated displays.",
+       s:"Recent job: 1.8 × 1.2 m lobby lightbox insert, backlit film"},
+      {n:"Wall Murals / Glass Stickers", k:"mural", a:C, b:M,
+       d:"Full-wall graphics and frosted or printed glass film for offices, clinics and storefronts.",
+       s:"Recent job: 6 m reception wall mural plus frosted glass partition film"},
+      {n:"Banner Stands (Pull-up / X-Stand)", k:"stand", a:O, b:C,
+       d:"Portable roll-up and X-frame displays with a carry bag. Ready for events, booths and lobbies.",
+       s:"Recent job: 6 pull-up stands, 60 × 160 cm, retractable base"}
+    ]
+  },
+  {
+    id:"stickers", channel:"Stickers", color:M,
+    title:"Stickers, labels and decals",
+    lede:"Anything that sticks: printed, laminated and cut to the exact outline you send us.",
+    items:[
+      {n:"Vinyl Sticker Printing", k:"vinyl", a:M, b:C,
+       d:"Waterproof printed vinyl with matte or gloss lamination. Indoor or outdoor adhesive.",
+       s:"Recent job: 2,000 pcs waterproof vinyl, kiss-cut on rolls"},
+      {n:"Label Sticker Printing", k:"label", a:M, b:Y,
+       d:"Product and packaging labels on sheets or rolls, with barcodes and batch numbers if needed.",
+       s:"Recent job: 1,500 bottled sauce labels, oval die, matte laminate"},
+      {n:"Sticker Cut Out", k:"diecut", a:Y, b:M,
+       d:"Die-cut and contour-cut stickers following any outline, down to about 15 mm.",
+       s:"Recent job: 400 A5 sheets, 9 die-cut shapes per sheet"},
+      {n:"Sticker on Sintra Board", k:"sintra", a:C, b:M,
+       d:"Prints mounted on 3–5 mm PVC board for rigid signs, directories and counter displays.",
+       s:"Recent job: 12 pcs 60 × 90 cm on 5 mm sintra, standoff mounted"},
+      {n:"Vehicle Sticker Wrapping / Decals", k:"vehicle", a:C, b:M,
+       d:"Full or partial vehicle wraps, door decals and fleet markings, installed at our shop.",
+       s:"Recent job: 4-vehicle fleet, half-wrap with door logos and contact panel"}
+    ]
+  },
+  {
+    id:"signage", channel:"Signage", color:Y,
+    title:"Signs and built-up lettering",
+    lede:"Permanent signage fabricated, finished and installed — lit or unlit.",
+    items:[
+      {n:"Acrylic Build-up Signs", k:"acrylic", a:M, b:C,
+       d:"Laser-cut acrylic letters with a polished edge, mounted flush or on standoffs. Backlit optional.",
+       s:"Recent job: 2.4 m storefront lettering, 10 mm acrylic, LED halo"},
+      {n:"Stainless Build-up Signs", k:"stainless", a:C, b:O,
+       d:"Brushed or mirror stainless letters and logos for building facades and reception walls.",
+       s:"Recent job: reception logo, 1.6 m wide, brushed 304 stainless"},
+      {n:"Panaflex Signs", k:"panaflex", a:C, b:M,
+       d:"Illuminated lightbox signs in a steel or aluminium frame with printed flex face.",
+       s:"Recent job: 3.0 × 1.2 m double-face panaflex, LED modules"},
+      {n:"LED Neon Signs", k:"neon", a:M, b:C,
+       d:"Flexible LED neon bent to your logo or wording, mounted on clear acrylic backing.",
+       s:"Recent job: café signage, 1.2 m wide, warm white and pink, dimmer"},
+      {n:"Menu Boards", k:"menu", a:Y, b:M,
+       d:"Wall-mounted or illuminated menu panels, with interchangeable inserts if your prices move.",
+       s:"Recent job: 3-panel counter menu, backlit, slide-in printed inserts"},
+      {n:"Road Signs", k:"road", a:O, b:C,
+       d:"Reflective traffic, warning and directional signage on gauge steel or aluminium, with posts.",
+       s:"Recent job: 20 pcs reflective site signage on 2.4 m galvanised posts"}
+    ]
+  },
+  {
+    id:"fabrication", channel:"Fabrication", color:"#231D1D",
+    title:"Cutting and fabrication",
+    lede:"In-house cutting, engraving and build work when the job needs more than a printer.",
+    items:[
+      {n:"Laser Cutting / Engraving", k:"laser", a:K, b:M,
+       d:"Precision cutting and engraving on acrylic, wood, MDF and coated metal. Small runs welcome.",
+       s:"Recent job: 300 engraved acrylic tags, 3 mm, single piece minimum"},
+      {n:"Acrylic Barriers", k:"barrier", a:C, b:M,
+       d:"Counter shields and divider panels with a service opening, cut and polished to your counter.",
+       s:"Recent job: 14 counter barriers, 5 mm clear acrylic, 90 × 70 cm"},
+      {n:"Kiosk Supply and Fabrication", k:"kiosk", a:O, b:M,
+       d:"Mall carts and retail kiosks designed, built, branded and delivered ready to trade.",
+       s:"Recent job: 2.4 m food cart, powder-coated frame, signage and counter"}
+    ]
+  },
+  {
+    id:"personalised", channel:"Personalised", color:"#31565E",
+    title:"Apparel and personalised items",
+    lede:"Corporate, event and giveaway items, from one piece to a few hundred.",
+    items:[
+      {n:"T-Shirt Printing", k:"shirt", a:O, b:M,
+       d:"Silkscreen, heat transfer and sublimation on shirts, jerseys, caps and totes. Names and numbers included.",
+       s:"Recent job: 180 anniversary shirts, 3-colour screen print, cotton"},
+      {n:"PVC ID / Lanyard", k:"id", a:O, b:C,
+       d:"Printed PVC IDs with barcode or QR, plus matching sublimated lanyards and holders.",
+       s:"Recent job: 240 staff IDs with QR, sublimated lanyards, plastic holders"},
+      {n:"Mug Printing", k:"mug", a:M, b:C,
+       d:"Full-wrap sublimation on ceramic mugs and stainless tumblers. Gift boxing on request.",
+       s:"Recent job: 120 reunion mugs, 11 oz, full wrap, individually boxed"}
+    ]
+  }
+];
+
+/* ---------- mailto builder ---------- */
+function quoteLink(service){
+  const subject = service ? "Quote request: " + service : "Quote request";
+  const lines = [
+    "Hi " + SHOP.name + ",",
+    "",
+    "I'd like a quote for: " + (service || "(describe the job)"),
+    "",
+    "Size / dimensions:",
+    "Quantity:",
+    "Material or finish:",
+    "Installation needed? (yes / no):",
+    "Date needed:",
+    "Artwork ready? (yes / no — we can lay it out for you):",
+    "",
+    "Name:",
+    "Contact number:",
+    "",
+    "Thank you."
+  ];
+  return "mailto:" + SHOP.email +
+         "?subject=" + encodeURIComponent(subject) +
+         "&body=" + encodeURIComponent(lines.join("\n"));
+}
+
+function esc(t){ return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+/* ---------- render ---------- */
+const nav = document.getElementById("nav");
+const root = document.getElementById("services");
+
+CATS.forEach(cat => {
+  const a = document.createElement("a");
+  a.href = "#cat-" + cat.id;
+  a.innerHTML = '<span class="chip" style="background:' + cat.color + '"></span>' + esc(cat.channel);
+  nav.appendChild(a);
+
+  const cards = cat.items.map(it =>
+    '<article class="work">' +
+      art(it.k, it.a, it.b) +
+      '<div class="cap">' +
+        '<h3>' + esc(it.n) + '</h3>' +
+        '<p class="desc">' + esc(it.d) + '</p>' +
+        '<p class="spec"><b>Finished work</b> — ' + esc(it.s) + '</p>' +
+        '<div class="btnwrap"><a class="btn sm" href="' + quoteLink(it.n) + '">Request a quote</a></div>' +
+      '</div>' +
+    '</article>'
+  ).join("");
+
+  const sec = document.createElement("section");
+  sec.className = "cat";
+  sec.id = "cat-" + cat.id;
+  sec.innerHTML =
+    '<div class="wrap">' +
+      '<span class="channel"><i style="background:' + cat.color + '"></i>' + esc(cat.channel) + '</span>' +
+      '<h2>' + esc(cat.title) + '</h2>' +
+      '<p class="lede prose">' + esc(cat.lede) + '</p>' +
+      '<div class="grid">' + cards + '</div>' +
+    '</div>';
+  root.appendChild(sec);
+});
+
+document.getElementById("mainQuote").href = quoteLink("");
+const el = document.getElementById("emailLink");
+el.href = quoteLink("");
+el.textContent = SHOP.email;
+</script>
+</body>
+</html>
